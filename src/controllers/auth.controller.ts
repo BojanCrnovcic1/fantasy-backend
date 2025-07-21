@@ -84,7 +84,7 @@ export class AuthController {
       }
     }
 
-    @Post('/verify-email')
+    @Get('/verify-email')
     async verifyEmail(@Query('token') token: string, @Res() res: Response): Promise<void> {
         try {
             const decoded = this.jwtService.verifyEmailVerificationToken(token);
