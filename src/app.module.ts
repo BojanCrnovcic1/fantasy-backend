@@ -52,6 +52,10 @@ import { ScoresController } from './controllers/api/scores.controller';
           Teams,
           Users
         ],
+        extra: {
+          connectionLimit: 4,
+        },
+        keepConnectionAlive: true,
       }),
     }),    
     TypeOrmModule.forFeature([
