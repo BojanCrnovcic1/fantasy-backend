@@ -28,11 +28,24 @@ import { PredictionsController } from './controllers/api/predictions.controller'
 import { PredictionsService } from './services/prediction/predictions.service';
 import { ScoresService } from './services/score/scores.service';
 import { ScoresController } from './controllers/api/scores.controller';
+import { Gameweeks } from './entities/gameweeks.entity';
+import { LeagueMemberships } from './entities/league-memberships.entity';
+import { Leagues } from './entities/leagues.entity';
+import { MatchPredictions } from './entities/match-predictions.entity';
+import { Matches } from './entities/matches.entity';
+import { GameweeksService } from './services/gameweek/gameweeks.service';
+import { GameweeksController } from './controllers/api/gameweeks.controller';
+import { MatchesController } from './controllers/api/matches.controller';
+import { MatchesService } from './services/match/matches.service';
+import { MatchPredictionsService } from './services/match-prediction/match-predictions.service';
+import { MatchPredictionsController } from './controllers/api/match-predictions.controller';
+import { LeaguesController } from './controllers/api/leagues.controller';
+import { LeaguesService } from './services/league/leagues.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, 
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -46,32 +59,38 @@ import { ScoresController } from './controllers/api/scores.controller';
         database: config.get<string>('DATABASE_NAME'),
         entities: [
           ActualStandings,
+          Gameweeks,
+          LeagueMemberships,
+          Leagues,
+          MatchPredictions,
+          Matches,
           PredictionItems,
           Predictions,
           Scores,
           Teams,
-          Users
+          Users,
         ],
-        extra: {
-          connectionLimit: 4,
-        },
-        keepConnectionAlive: true,
       }),
-    }),    
+    }),
     TypeOrmModule.forFeature([
       ActualStandings,
+      Gameweeks,
+      LeagueMemberships,
+      Leagues,
+      MatchPredictions,
+      Matches,
       PredictionItems,
       Predictions,
       Scores,
       Teams,
-      Users
+      Users,
     ]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
         secret: config.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '30m' },
+        signOptions: { expiresIn: '15d' },
       }),
     }),
     HttpModule,
@@ -84,6 +103,10 @@ import { ScoresController } from './controllers/api/scores.controller';
     ActualStandingsController,
     PredictionsController,
     ScoresController,
+    GameweeksController,
+    MatchesController,
+    MatchPredictionsController,
+    LeaguesController,
   ],
   providers: [
     UsersService,
@@ -98,16 +121,16 @@ import { ScoresController } from './controllers/api/scores.controller';
     ActualStandingsService,
     PredictionsService,
     ScoresService,
+    GameweeksService,
+    MatchesService,
+    MatchPredictionsService,
+    LeaguesService,
     ConfigService,
   ],
-  exports: [
-    AuthService
-  ]
+  exports: [AuthService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware)
-            .exclude('auth/*')
-            .forRoutes('api/*');
+    consumer.apply(AuthMiddleware).exclude('auth/*').forRoutes('api/*');
   }
 }

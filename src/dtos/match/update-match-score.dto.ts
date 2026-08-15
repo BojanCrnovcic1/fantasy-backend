@@ -1,0 +1,13 @@
+import { IsInt, IsNotEmpty, Min } from 'class-validator';
+
+export class UpdateMatchScoreDto {
+  @IsInt()
+  @Min(0)
+  @IsNotEmpty()
+  homeScore: number;
+
+  @IsInt()
+  @Min(0)
+  @IsNotEmpty()
+  awayScore: number;
+}
