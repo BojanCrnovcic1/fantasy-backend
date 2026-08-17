@@ -36,7 +36,7 @@ export class PredictionsService {
 
   async createPrediction(userId: number, teamIds: number[]) {
     const now = new Date();
-    const lockDate = new Date('2026-08-20T00:00:00Z');
+    const lockDate = new Date('2026-08-21T20:00:00Z');
     if (now >= lockDate) {
       throw new BadRequestException(
         'Predikcije su zatvorene nakon početka sezone.',
