@@ -61,4 +61,16 @@ export class GameweeksService {
     gameweek.isFinished = isFinished;
     return await this.gameweeksRepo.save(gameweek);
   }
+
+  async remove(gameweekId: number): Promise<void> {
+    const gameweek = await this.gameweeksRepo.findOne({
+      where: { gameweekId },
+    });
+
+    if (!gameweek) {
+      throw new NotFoundException('Gameweek ne postoji.');
+    }
+
+    await this.gameweeksRepo.remove(gameweek);
+  }
 }

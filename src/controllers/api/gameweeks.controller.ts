@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -35,5 +36,10 @@ export class GameweeksController {
     @Body('isFinished') isFinished: boolean,
   ) {
     return await this.gameweeksService.toggleFinish(id, isFinished);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.gameweeksService.remove(id);
   }
 }
