@@ -38,7 +38,7 @@ export class GameweeksController {
     return await this.gameweeksService.toggleFinish(id, isFinished);
   }
 
-  @Delete(':id')
+  @Delete('remove/:id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     return await this.gameweeksService.remove(id);
   }
